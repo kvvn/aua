@@ -63,12 +63,13 @@
                     <?php endforeach; ?>
                 </div>
             </div>
+            
             <nav>
                 <ul class="pager">
                     <?php if ($page != 0): ?>
-                        <li><a href="<?php echo base_url() . $page - 1;?>">Назад</a></li>
+                        <li><a href="<?php echo base_url();?>main/<?php echo $page - 1;?>">Назад</a></li>
                     <?php endif; ?>
-                    <li><a href="<?php echo base_url() . $page + 1;?>">Дальше</a></li>
+                    <li><a href="<?php echo base_url();?>main/<?php echo $page + 1;?>">Дальше</a></li>
                 </ul>
             </nav>
         </div>

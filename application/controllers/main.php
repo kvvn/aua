@@ -18,6 +18,7 @@ class main extends CI_Controller {
     }
     
     public function index($page = 0){
+        
         $this->load->model('lots');
         $this->load->model('attachments');
         $this->load->model('auctions');
