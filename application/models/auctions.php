@@ -18,6 +18,11 @@ class Auctions extends CI_Model{
         return $this->db->get($this->table)->result_array();
     }
     
+    function getBy(array $where){
+        $query = $this->db->get_where($this->table, $where);
+        return $query->result_array();
+    }
+    
 }
 
 ?>

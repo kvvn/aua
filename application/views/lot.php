@@ -23,11 +23,11 @@
                             <?php foreach ($bets as $bet): ?>
                                 <tr align="middle"><td><?php echo $bet['text']; ?></td></tr>
                             <?php endforeach; ?>
-                            <!--tr><td>&nbsp;</td></tr-->
+                        <!--tr><td>&nbsp;</td></tr-->
                         </table>
                         <p>
-                            <a class="btn btn-primary btn-large" href="#">Перейти к лоту</a>
-                            <a class="btn btn-primary btn-large" href="#">Назад</a>
+                            <a class="btn btn-primary btn-large" href="http://vk.com/<?php echo $auction[0]['url'] . '?w=wall-' . $auction[0]['group_id'] . '_' . $lot[0]['post_id']; ?>">Перейти к лоту</a>
+                            <a class="btn btn-primary btn-large" href="<?php echo base_url() . 'main/' . $page; ?>">Назад</a>
                         </p>
                     </div>
                     <div class="col-md-4 column">&nbsp;</div>

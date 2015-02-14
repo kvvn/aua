@@ -39,7 +39,7 @@
 */
 
 $route['default_controller'] = "main";
-$route['lot/(:num)'] = "lot/index/$1";
+$route['lot/(:num)/(:num)'] = "lot/index/$1/$2";
 $route['(:num)'] = "main/index/$1";
 $route['main/(:num)'] = "main/index/$1";
 $route['404_override'] = '';

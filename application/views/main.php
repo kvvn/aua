@@ -51,7 +51,7 @@
                                 </p>
                                 <p>
                                     Ставок:<?php echo $lot['comments']; ?><br/>
-                                    <a class="btn" href ="<?php echo base_url();?>lot/<?php echo $lot['id']; ?>">Подробнее »</a>
+                                    <a class="btn" href ="<?php echo base_url();?>lot/<?php echo $lot['id']; ?>/<?php echo $page; ?>">Подробнее »</a>
                                 </p>
                             </div>
                             <?php if ($i % 3 == 0 && $i % 18 != 0): ?>
