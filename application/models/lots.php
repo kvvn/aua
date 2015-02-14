@@ -19,8 +19,9 @@ class Lots extends CI_Model {
         parent::__construct();
     }
     
-    function get_last_lots($page = 0)
+    function get_last_lots($page)
     {
+        $this->db->order_by('id', 'desc');
         $query = $this->db->get($this->table, 18, $page*18);
         return $query->result_array();
     }

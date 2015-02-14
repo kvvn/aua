@@ -17,10 +17,13 @@ class main extends CI_Controller {
         parent::__construct();
     }
     
-    public function index(){
+    public function index($page = 0){
         $this->load->model('lots');
         $this->load->model('attachments');
-        $lots = $this->lots->get_last_lots();
+        $this->load->model('auctions');
+        $lots = $this->lots->get_last_lots($page);
+        $data['auctions'] = $this->auctions->getList();
+        $data['page'] = $page;
         $data['lots'] = [];
         //$data['attachments'] = [];
         foreach ($lots as $lot){
