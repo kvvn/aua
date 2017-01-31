@@ -21,7 +21,7 @@ class Lots extends CI_Model {
     
     function get_last_lots($page)
     {
-        $this->db->order_by('id', 'desc');
+        $this->db->order_by('date', 'desc');
         $query = $this->db->get($this->table, 18, $page*18);
         return $query->result_array();
     }

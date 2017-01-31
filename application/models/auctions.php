@@ -15,7 +15,8 @@ class Auctions extends CI_Model{
     private $table = 'auctions';
     
     function getList(){
-        return $this->db->get($this->table)->result_array();
+        $auctions = $this->db->get($this->table)->result_array();
+        return $this->arrayDecorator($auctions);
     }
     
     function getBy(array $where){

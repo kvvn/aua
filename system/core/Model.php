@@ -50,6 +50,14 @@ class CI_Model {
 		$CI =& get_instance();
 		return $CI->$key;
 	}
+
+	public function arrayDecorator($array) {
+		$result = [];
+		foreach ($array as $element) {
+			$result[$element['id']] = $element;
+		}
+		return $result;
+	}
 }
 // END Model Class
 
