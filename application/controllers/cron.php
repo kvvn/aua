@@ -66,35 +66,8 @@ class cron extends CI_Controller {
                                 ];
                                 $this->attachments->newAttachment($attachment_data);
                             }
-                            if ($lot['comments']['count'] > 0) {
-                                $comments_data = file_get_contents('https://api.vk.com/method/wall.getComments?v=5.3&owner_id=-' . $auction['group_id'] . '&count=5&post_id=' . $lot['id'] . '&sort=asc');
-                                echo $comments_data;
-                                $comments = json_decode($comments_data, TRUE);
-                                if (!empty($comments['response']['items'])) {
-                                    foreach ($comments['response']['items'] as $comment) {
-                                        $this->addComment($comment, $new_id);
-                                    }
-                                }
-                            }
-                        } else {
-                            echo 2 . PHP_EOL;
-                            if ($lot['comments']['count'] != $saved_lot[0]['comments'] && $lot['comments']['count'] != 0) {
-                                $ex_comments_ids = [];
-                                $existing = $this->bets->get_bets_byid($saved_lot[0]['id']);
-                                foreach ($existing as $ex_comm) {
-                                    array_push($ex_comments_ids, $ex_comm['comment_id']);
-                                }
-                                $comments_data = file_get_contents('https://api.vk.com/method/wall.getComments?v=5.3&owner_id=' . $auction['group_id'] . '&count=5&post_id=' . $lot['id'] . '&sort=asc');
-                                $comments = json_decode($comments_data, TRUE);
-                                if (!empty($comments['response']['items'])) {
-                                    print_r($comments, true);
-                                    foreach ($comments['response']['items'] as $comment) {
-                                        if (!in_array($comment['id'], $ex_comments_ids)) {
-                                            $this->addComment($comment, $saved_lot[0]['id']);
-                                        }
-                                    }
-                                }
-                            }
+                            $message = sprintf('<a href="https://vk.com/club%s?w=wall-%s_%s">Лот</a>', $auction['group_id'], $auction['group_id'], $lot['id']);
+                            $this->sendToTelegram($message);
                         }
                     }
                 }
@@ -102,14 +75,20 @@ class cron extends CI_Controller {
         }
     }
 
-    private function addComment($comment, $id) {
-        $comment_data = [
-            'post_id' => $id,
-            'text' => $comment['text'],
-            'date' => $comment['date'],
-            'comment_id' => $comment['id'],
-        ];
-        $this->bets->newBet($comment_data);
+    
+    
+    private function sendToTelegram($message = null)
+    {
+        $result = [];
+        if(!empty($message)) {
+            $botToken = "telegram_token";
+            $chat_id = "@ultras_auctions";
+            $bot_url    = "https://api.telegram.org/bot$botToken/";
+            $url = $bot_url."sendMessage?chat_id=".$chat_id."&text=".urlencode($message).'&parse_mode=HTML';
+            $result = json_decode(file_get_contents($url), true);
+        }
+        
+        return $result;
     }
 
     private function checkAttachments($attachments) {
@@ -120,6 +99,17 @@ class cron extends CI_Controller {
         }
         return false;
     }
+    
+// It is not needed anymore 
+//    private function addComment($comment, $id) {
+//        $comment_data = [
+//            'post_id' => $id,
+//            'text' => $comment['text'],
+//            'date' => $comment['date'],
+//            'comment_id' => $comment['id'],
+//        ];
+//        $this->bets->newBet($comment_data);
+//    }
 
 }
 

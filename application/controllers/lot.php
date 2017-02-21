@@ -25,9 +25,23 @@ class lot extends Adv_Controller
 
         $this->data['lot'] = $this->lots->get_lot_by_id($id);
         $this->data['attachments'] = $this->attachments->get_attachments_byid($id);
-        $this->data['bets'] = $this->bets->get_bets_byid($id);
+
         $this->data['page'] = $page;
-        $this->data['auction'] = $this->auctions->getBy(['id' => $this->data['lot'][0]['auction_id']]);
+
+        $auction = $this->auctions->getBy(['id' => $this->data['lot'][0]['auction_id']]);
+        $this->data['auction'] = $auction;
+
+        $bets = [];
+
+        $comments_data = file_get_contents('https://api.vk.com/method/wall.getComments?v=5.3&owner_id=-' . $auction[0]['group_id'] . '&count=5&post_id=' . $this->data['lot'][0]['post_id'] . '&sort=desc');
+        $comments = json_decode($comments_data, TRUE);
+        if (!empty($comments['response']['items'])) {
+            print_r($comments, true);
+            foreach ($comments['response']['items'] as $comment) {
+                $bets[] = $comment;
+            }
+        }
+        $this->data['bets'] = $bets;
 
         $this->layout();
     }
